@@ -39,11 +39,14 @@ class HandleCollisionsAction(Action):
         score = cast.get_first_actor("scores")
         food = cast.get_first_actor("foods")
         cycle = cast.get_first_actor("cycles")
+        cycle2 = cast.get_first_actor("cycles2")
         head = cycle.get_head()
+        head2 = cycle2.get_head2()
 
         if head.get_position().equals(food.get_position()):
             points = food.get_points()
             cycle.grow_tail(points)
+            cycle2.grow_tail2(points)
             score.add_points(points)
             food.reset()
     
@@ -54,9 +57,11 @@ class HandleCollisionsAction(Action):
             cast (Cast): The cast of Actors in the game.
         """
         cycle = cast.get_first_actor("cycles")
+        cycle2 = cast.get_first_actor("cycles2")
         head = cycle.get_segments()[0]
+        head2 = cycle2.get_segments2()[0]
         segments = cycle.get_segments()[1:]
-        
+        segments2 = cycle2.get_segments2()[1:]
         for segment in segments:
             if head.get_position().equals(segment.get_position()):
                 self._is_game_over = True
@@ -69,7 +74,9 @@ class HandleCollisionsAction(Action):
         """
         if self._is_game_over:
             cycle = cast.get_first_actor("cycles")
+            cycle2 = cast.get_first_actor("cycles2")
             segments = cycle.get_segments()
+            segments2 = cycle2.get_segments2()
             food = cast.get_first_actor("foods")
 
             x = int(constants.MAX_X / 2)
