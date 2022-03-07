@@ -22,4 +22,4 @@ The program must include class and method comments.
 The program must have at least 16 classes.
 The program must remain true to game play described in the overview.
 
-People who worked on the game: Ari-John Katia, Skylee Schleich, Quincy Brokaw, Ana Nayeli Sanchez, Sergio Benavides
+People who worked on the game: Ari-John Katia, Skylee Schleich, Quincy Brokaw, Ana Nayeli Sanchez, Sergio Benavides.
