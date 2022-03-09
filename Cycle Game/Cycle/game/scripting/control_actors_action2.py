@@ -20,9 +20,9 @@ class ControlActorsAction2(Action):
             keyboard_service (KeyboardService): An instance of KeyboardService.
         """
         self._keyboard_service = keyboard_service
-        self._direction2 = Point(constants.CELL_SIZE, 0)
+        self._direction = Point(constants.CELL_SIZE, 0)
 
-    def execute2(self, cast, script):
+    def execute(self, cast, script):
         """Executes the control actors action.
 
         Args:
@@ -31,20 +31,20 @@ class ControlActorsAction2(Action):
         """
         # left
         if self._keyboard_service.is_key_down('j'):
-            self._direction2 = Point(-constants.CELL_SIZE, 0)
+            self._direction = Point(-constants.CELL_SIZE, 0)
         
         # right
         if self._keyboard_service.is_key_down('l'):
-            self._direction2 = Point(constants.CELL_SIZE, 0)
+            self._direction = Point(constants.CELL_SIZE, 0)
         
         # up
         if self._keyboard_service.is_key_down('i'):
-            self._direction2 = Point(0, -constants.CELL_SIZE)
+            self._direction = Point(0, -constants.CELL_SIZE)
         
         # down
         if self._keyboard_service.is_key_down('k'):
-            self._direction2 = Point(0, constants.CELL_SIZE)
+            self._direction = Point(0, constants.CELL_SIZE)
         
         cycle2 = cast.get_first_actor("cycles2")
-        cycle2.turn_head2(self._direction2)
+        cycle2.turn_head2(self._direction)
         

@@ -10,7 +10,7 @@ from game.scripting.script import Script
 from game.scripting.control_actors_action import ControlActorsAction
 from game.scripting.control_actors_action2 import ControlActorsAction2
 from game.scripting.move_actors_action import MoveActorsAction
-#from game.scripting.move_actors_action import MoveActorsAction2
+#from game.scripting.move_actors_action2 import MoveActorsAction2
 from game.scripting.handle_collisions_action import HandleCollisionsAction
 from game.scripting.draw_actors_action import DrawActorsAction
 from game.directing.director import Director
