@@ -8,7 +8,9 @@ class Director:
     """
 
     def __init__(self, video_service):
-        """Constructs a new Director using the specified video service.
+        """Constructs a new Director using the sp
+        
+        ecified video service.
         
         Args:
             video_service (VideoService): An instance of VideoService.
