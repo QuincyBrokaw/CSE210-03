@@ -52,6 +52,19 @@ class VideoService:
             offset = int(width / 2)
             x -= offset
         pyray.draw_text(text, x, y, font_size, color)
+    
+    def draw_actor2(self, actor, centered=False):
+        text = actor.get_text()
+        x = actor.get_position2().get_x()
+        y = actor.get_position2().get_y()
+        font_size = actor.get_font_size()
+        color = actor.get_color().to_tuple()
+        if centered:
+            width = pyray.measure_text(text, font_size)
+            offset = int(width / 2)
+            x -= offset
+        pyray.draw_text(text, x, y, font_size, color)    
+        
     def draw_actors(self, actors, centered=False):
         for actor in actors:
             self.draw_actor(actor, centered)
@@ -114,6 +127,7 @@ class Actor:
         self._font_size = 15
         self._color = Color(255, 255, 255)
         self._position = Point(0, 0)
+        self._position2 = Point(0, 20)
         self._velocity = Point(0, 0)
 
     def get_color(self):
@@ -124,6 +138,9 @@ class Actor:
 
     def get_position(self):
         return self._position
+    
+    def get_position2(self):
+        return self._position2
     
     def get_text(self):
         return self._text
@@ -141,6 +158,9 @@ class Actor:
 
     def set_position(self, position):
         self._position = position
+        
+    def set_position2(self, position):
+        self._position2 = position
     
     def set_font_size(self, font_size):
         self._font_size = font_size
@@ -175,7 +195,7 @@ class Cycle(Actor):
 
     def grow_tail(self, number_of_segments):
         for i in range(number_of_segments):
-            tail = self._segments[-1]
+            tail = self._segments[-2]
             velocity = tail.get_velocity()
             offset = velocity.reverse()
             position = tail.get_position().add(offset)
@@ -232,7 +252,7 @@ class Cycle2(Actor):
 
     def grow_tail2(self, number_of_segments2):
         for i in range(number_of_segments2):
-            tail = self._segments2[-1]
+            tail = self._segments2[-2]
             velocity = tail.get_velocity()
             offset = velocity.reverse()
             position = tail.get_position().add(offset)
@@ -410,7 +430,7 @@ class DrawActorsAction(Action):
         self._video_service.draw_actors(segments)
         self._video_service.draw_actors(segments2)
         self._video_service.draw_actor(score)
-        self._video_service.draw_actor(score2)
+        self._video_service.draw_actor2(score2)
         self._video_service.draw_actors(messages, True)
         self._video_service.flush_buffer()
    
@@ -452,7 +472,15 @@ class HandleCollisionsAction(Action):
             score.add_points(points)
             score2.add_points2(points)
             food.reset()
-    
+
+        if head2.get_position().equals(food.get_position()):
+            points = food.get_points()
+            cycle.grow_tail(points)
+            cycle2.grow_tail2(points)
+            score.add_points(points)
+            score2.add_points2(points)
+            food.reset()
+        
     def _handle_segment_collision(self, cast):
         cycle = cast.get_first_actor("cycles")
         cycle2 = cast.get_first_actor("cycles2")
@@ -463,6 +491,9 @@ class HandleCollisionsAction(Action):
         for segment in segments:
             if head.get_position().equals(segment.get_position()):
                 self._is_game_over = True
+        for segment in segments2:
+            if head2.get_position().equals(segment.get_position()):
+                self._is_game_over = True    
         
     def _handle_game_over(self, cast):
         if self._is_game_over:
@@ -482,6 +513,10 @@ class HandleCollisionsAction(Action):
             cast.add_actor("messages", message)
 
             for segment in segments:
+                segment.set_color(WHITE)
+            food.set_color(WHITE) 
+            
+            for segment in segments2:
                 segment.set_color(WHITE)
             food.set_color(WHITE) 
  
